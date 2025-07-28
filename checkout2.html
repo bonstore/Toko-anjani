@@ -23,7 +23,7 @@
 
     h1 {
       text-align: center;
-      color: #cc2c2c;
+      color: #6996c5;
       margin-bottom: 20px;
     }
 
@@ -33,7 +33,7 @@
       background: #f8f8f8;
       padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 2px 8px #cc2c2c;
+      box-shadow: 0 2px 8px #6996c5;
     }
 
     label {
@@ -55,7 +55,7 @@
     button {
       width: 100%;
       padding: 12px;
-      background-color: #cc2c2c;
+      background-color: #6996c5;
       color: white;
       border: none;
       font-weight: bold;
@@ -65,18 +65,18 @@
     }
 
     button:hover {
-      background-color: #b02525;
+      background-color: #6996c5;
     }
 
     footer {
       text-align: center;
       margin-top: 40px;
       font-size: 20px;
-      color: #cc2c2c;
+      color: #6996c5;
     }
 
     header {
-      background: #cc0d2d;
+      background: #6996c5;
       padding: 10px 20px;
       display: flex;
       justify-content: space-between;
@@ -133,7 +133,7 @@
     .popup-menu ul li {
       padding: 10px 16px;
       cursor: pointer;
-      color: #cc0d2d;
+      color: #6996c5;
       font-weight: bold;
     }
 
@@ -161,6 +161,7 @@
       <select id="metode" required>
         <option value="Qris">QRIS</option>
         <option value="Dana">DANA</option>
+        <option value="Dana">GOPAY</option>
       </select>
 
       <label>Username/Link Profil</label>
@@ -169,7 +170,7 @@
       <button type="submit">ORDER VIA WHATSAPP</button>
     </form>
 
-    <footer>&copy; BONSTORE</footer>
+    <footer>&copy; KEDAI ANJANI</footer>
   </div>
 
   <script>
@@ -193,7 +194,7 @@
 
       const pesan = `*🛍HALO ADMIN, MAU ORDER*\n\n📦 Produk: ${produk}\n📁 Kategori: ${kategori}\n💸 Harga: ${harga}\n👤 Username/Link Profil: ${username}\n💳 Pembayaran: ${metode}\n\nSilakan diproses min 🙏`;
 
-      const nomorAdmin = '6285141316926';
+      const nomorAdmin = '6281460495219';
       const linkWA = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(pesan)}`;
       window.open(linkWA, '_blank');
     }
