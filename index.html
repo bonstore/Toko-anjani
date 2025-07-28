@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kedai Anjani</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background: #ffffff;
+      color: #000;
+    }
+
+    /* ===== NAVBAR ===== */
+    header {
+      background: #6996c5;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+    .menu-btn {
+      width: 30px;
+      height: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .menu-btn span {
+      height: 6px;
+      border-radius: 3px;
+      background: white;
+      display: block;
+    }
+
+    /* ===== POPUP MENU ===== */
+    .popup-menu {
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 160px;
+      display: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      z-index: 999;
+    }
+
+    .popup-menu ul {
+      list-style: none;
+      margin: 0;
+      padding: 8px 0;
+    }
+
+    .popup-menu ul li {
+      padding: 10px 16px;
+      cursor: pointer;
+      color: #6996c5;
+      font-weight: bold;
+    }
+
+    .popup-menu ul li:hover {
+      background-color: #f2f2f2;
+    }
+
+    /* ===== KATEGORI SLIDER ===== */
+    .category-container {
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+      margin: 20px 10px;
+      padding: 0 10px;
+    }
+
+    .scroll-btn {
+      background-color: #6996c5;
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 15px;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .category-scroll {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      gap: 10px;
+      padding: 10px 0;
+      margin: 0 10px;
+    }
+
+    .category-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .category-button {
+      flex: 0 0 auto;
+      background-color: #6996c5;
+      color: white;
+      border: 2px solid white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .category-button.active {
+      background-color: white;
+      color: #6996c5;
+      border: 2px solid #6996c5;
+    }
+
+    /* ===== GRID GAME ===== */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 16px;
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 25px;
+    }
+
+    a.game-card {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .game-card {
+      background: #6996c5;
+      border-radius: 12px;
+      overflow: hidden;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .game-card:hover {
+      transform: scale(1.05);
+    }
+
+    .game-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .game-title {
+      padding: 10px;
+      font-size: 11px;
+      font-weight: bold;
+      color: white;
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======= NAVBAR ======= -->
+  <header>
+    <div class="logo">
+      <img src="https://files.catbox.moe/2w6gtq.png" alt="anjani Logo">
+    </div>
+    <div class="menu-btn" id="menuBtn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="popup-menu" id="popupMenu">
+      <ul>
+        <li>Informasi</li>
+        <li>Info Admin</li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ======= KATEGORI SLIDER ======= -->
+  <div class="category-container">
+     <button class="scroll-btn" onclick="scrollCategory(-200)">&#8249;</button>
+    <div class="category-scroll" id="categoryScroll">
+     <button class="category-button active" data-kategori="topup">TopUp Game</button>
+     <button class="category-button" data-kategori="sosmed">Suntik Sosmed</button>
+     <button class="category-button" data-kategori="appprem">App Premium</button>
+     <button class="category-button" data-kategori="jasa">Jasa Anjani</button>
+     <button class="category-button" data-kategori="lainnya">Lainnya</button>
+
+    </div>
+    <button class="scroll-btn" onclick="scrollCategory(200)">&#8250;</button>
+  </div>
+
+  <!-- ======= TOP UP GAME ======= -->
+  <div class="grid-container" id="gameContainer">
+  <a href="freefire.html" class="game-card" data-kategori="topup">
+    <img src="https://files.catbox.moe/y55zh4.png" alt="freefire">
+    <div class="game-title">FREE FIRE</div>
+  </a>
+  <a href="mlbb.html" class="game-card" data-kategori="topup">
+    <img src="https://files.catbox.moe/hpuzi6.jpg" alt="mlbb">
+    <div class="game-title">MOBILE LEGENDS</div>
+  </a>
+  <a href="genshin.html" class="game-card" data-kategori="topup">
+    <img src="https://files.catbox.moe/3xosky.jpg" alt="genshin">
+    <div class="game-title">GENSHIN IMPACT</div>
+  </a>
+  <a href="roblox.html" class="game-card" data-kategori="topup">
+    <img src="https://files.catbox.moe/tm6mg4.jpg" alt="robux">
+    <div class="game-title">ROBLOX</div>
+  </a>
+  <!-- ======= SUNTIK SOSMED ======= -->
+  <a href="ttfol.html" class="game-card" data-kategori="sosmed">
+    <img src="https://files.catbox.moe/pbzrrm.png" alt="tiktok">
+    <div class="game-title">FOLLOWERS</div>
+  </a>
+  <a href="ttlike.html" class="game-card" data-kategori="sosmed">
+    <img src="https://files.catbox.moe/pbzrrm.png" alt="tiktok">
+    <div class="game-title">LIKE MIX</div>
+  </a>
+  <a href="ttview.html" class="game-card" data-kategori="sosmed">
+    <img src="https://files.catbox.moe/pbzrrm.png" alt="tiktok">
+    <div class="game-title">VIEW MIX</div>
+  </a>
+  <a href="ttsave.html" class="game-card" data-kategori="sosmed">
+    <img src="https://files.catbox.moe/pbzrrm.png" alt="tiktok">
+    <div class="game-title">SAVE MIX</div>
+  </a>
+  <a href="ttsher.html" class="game-card" data-kategori="sosmed">
+    <img src="https://files.catbox.moe/pbzrrm.png" alt="tiktok">
+    <div class="game-title">SHER MIX</div>
+  </a>
+  <a href="igfol.html" class="game-card" data-kategori="sosmed">
+    <img src="https://files.catbox.moe/n110ij.jpeg" alt="instagram">
+    <div class="game-title">FOLLOWERS</div>
+  </a>
+  <a href="iglike.html" class="game-card" data-kategori="sosmed">
+    <img src="https://files.catbox.moe/n110ij.jpeg" alt="instagram">
+    <div class="game-title">LIKE MIX</div>
+  </a>
+    <a href="iglikeindo.html" class="game-card" data-kategori="sosmed">
+    <img src="https://files.catbox.moe/n110ij.jpeg" alt="instagram">
+    <div class="game-title">LIKE INDO</div>
+  </a>
+    <a href="igview.html" class="game-card" data-kategori="sosmed">
+    <img src="https://files.catbox.moe/n110ij.jpeg" alt="instagram">
+    <div class="game-title">VIEW MIX</div>
+  </a>
+  <a href="wafol.html" class="game-card" data-kategori="sosmed">
+    <img src="https://files.catbox.moe/fq8aia.jpg" alt="whatsap">
+    <div class="game-title">FOLLOWERS</div>
+  </a>
+  <a href="wareac.html" class="game-card" data-kategori="sosmed">
+    <img src="https://files.catbox.moe/fq8aia.jpg" alt="whatsap">
+    <div class="game-title">REACTION POST</div>
+  </a>
+  <!-- ======= APP PREMIUM ======= -->
+  <a href="alight.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/v5g6c0.jpg" alt="am">
+    <div class="game-title">ALIGHT MOTION</div>
+  </a>
+  <a href="canva.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/lxyvzp.jpg" alt="canva">
+    <div class="game-title">CANVA</div>
+  </a>
+  <a href="capcut.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/qdzv6x.jpg" alt="capcut">
+    <div class="game-title">CAPCUT</div>
+  </a>
+  <a href="meitu.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/fmg1ot.jpg" alt="meitu">
+    <div class="game-title">MEITU</div>
+  </a>
+  <a href="picsart.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/4hgli1.jpg" alt="picsart">
+    <div class="game-title">PICSART</div>
+  </a>
+  <a href="remini.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/kx6pux.jpg" alt="remini">
+    <div class="game-title">REMINI WEB</div>
+  </a>
+  <a href="bstation.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/eccqg4.jpg" alt="picsart">
+    <div class="game-title">BSTATION</div>
+  </a>
+  <a href="disney.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/9x0ktf.jpg" alt="picsart">
+    <div class="game-title">DISNEY</div>
+  </a>
+  <a href="dramabox.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/dxl0ay.jpg" alt="picsart">
+    <div class="game-title">DRAMABOX</div>
+  </a>
+  <a href="iqiyi.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/8o2xaq.jpg" alt="picsart">
+    <div class="game-title">IQIYI</div>
+  </a>
+  <a href="loklok.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/37mol4.jpg" alt="picsart">
+    <div class="game-title">LOK-LOK</div>
+  </a>
+  <a href="netflix.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/wtixng.jpg" alt="picsart">
+    <div class="game-title">NETFLIX</div>
+  </a>
+  <a href="realshort.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/m5guvn.jpg" alt="picsart">
+    <div class="game-title">REAL SHORT</div>
+  </a>
+  <a href="viu.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/dhoyx1.jpg" alt="picsart">
+    <div class="game-title">VIU ANLIMIT</div>
+  </a>
+  <a href="wetv.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/z3pkx5.jpg" alt="picsart">
+    <div class="game-title">WE-TV</div>
+  </a>
+  <a href="wibuku.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/1zoaqa.jpg" alt="picsart">
+    <div class="game-title">WIBUKU</div>
+  </a>
+  <a href="youku.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/lh1rxk.jpg" alt="picsart">
+    <div class="game-title">YOUKU</div>
+  </a>
+  <a href="zoom.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/2f3u2u.jpg" alt="picsart">
+    <div class="game-title">ZOOM</div>
+  </a>
+  <a href="fizzo.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/8erkcb.jpg" alt="picsart">
+    <div class="game-title">FIZZO NOVEL</div>
+  </a>
+  <a href="wattpad.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/oa8tai.jpg" alt="picsart">
+    <div class="game-title">WATTPAD</div>
+  </a>
+  <a href="music.html" class="game-card" data-kategori="appprem">
+    <img src="https://iili.io/FvsxUtj.md.jpg" alt="picsart">
+    <div class="game-title">MUSIC MERAH</div>
+  </a>
+  <a href="spotify.html" class="game-card" data-kategori="appprem">
+    <img src="https://files.catbox.moe/g5av60.jpg" alt="picsart">
+    <div class="game-title">SPOTIFY</div>
+  </a>
+  <!-- ======= JASA ANJANI ======= -->
+  <a href="banned.html" class="game-card" data-kategori="jasa">
+    <img src="https://iili.io/FvZiniQ.jpg" alt="banned">
+    <div class="game-title">BANNED WHATSAPP</div>
+  </a>
+  <a href="pushmem.html" class="game-card" data-kategori="jasa">
+    <img src="https://iili.io/FvtHRe4.md.jpg" alt="pushmem">
+    <div class="game-title">JASA PUSH MEMBER</div>
+  </a>
+  <a href="jasher.html" class="game-card" data-kategori="jasa">
+    <img src="https://iili.io/FvtFERs.md.jpg" alt="pushmem">
+    <div class="game-title">JASA SHER/SEBAR</div>
+  </a>
+  <a href="jasaedit.html" class="game-card" data-kategori="jasa">
+    <img src="https://iili.io/FvtoRkP.md.jpg" alt="pushmem">
+    <div class="game-title">JASA EDIT JJ (ALIGHT MOTION)</div>
+  </a>
+  <a href="jasahd.html" class="game-card" data-kategori="jasa">
+    <img src="https://iili.io/FvtoRkP.md.jpg" alt="pushmem">
+    <div class="game-title">JASA HD ULTRA FOTO</div>
+  </a>
+    <!-- ======= LAINNYA ======= -->
+  <a href="botpush.html" class="game-card" data-kategori="lainnya">
+    <img src="https://iili.io/FvtrpBp.md.jpg" alt="tiktok">
+    <div class="game-title">BOT PUSH KONTAK</div>
+  </a>
+  <a href="nokos.html" class="game-card" data-kategori="lainnya">
+    <img src="https://iili.io/FvtY1Dl.jpg" alt="tiktok">
+    <div class="game-title">NOKOS APP</div>
+  </a>
+  <a href="bot.html" class="game-card" data-kategori="lainnya">
+    <img src="https://iili.io/FvtiEaS.md.jpg" alt="tiktok">
+    <div class="game-title">KEBUTUHAN BOT</div>
+  </a>
+  <a href="murid.html" class="game-card" data-kategori="lainnya">
+    <img src="https://iili.io/FvtsSf4.md.jpg" alt="tiktok">
+    <div class="game-title">OPEN MURID</div>
+  </a>
+  </a>
+  </div>
+
+  <!-- ======= SCRIPT MENU & KATEGORI ======= -->
+  <script>
+  const categoryButtons = document.querySelectorAll('.category-button');
+const allGameCards = document.querySelectorAll('.game-card');
+
+function filterKategori(kategoriDipilih) {
+  allGameCards.forEach(card => {
+    const kategoriCard = card.dataset.kategori;
+    if (kategoriCard === kategoriDipilih) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+      card.style.animation = 'none';
+    }
+  });
+
+  applyAnimation(kategoriDipilih);
+}
+
+function applyAnimation(kategoriDipilih) {
+  const visibleCards = Array.from(allGameCards).filter(
+    card => card.dataset.kategori === kategoriDipilih
+  );
+
+  visibleCards.forEach((card, index) => {
+    card.style.animation = 'none';
+    void card.offsetWidth;
+    card.style.opacity = 0;
+    setTimeout(() => {
+      card.style.animation = `fadeInUp 0.4s ease forwards`;
+      card.style.animationDelay = `${0.15 * index}s`;
+    }, 50);
+  });
+}
+
+categoryButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    categoryButtons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const kategoriDipilih = btn.dataset.kategori;
+    filterKategori(kategoriDipilih);
+  });
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  const aktif = document.querySelector('.category-button.active');
+  if (aktif) {
+    const kategoriAwal = aktif.dataset.kategori;
+    filterKategori(kategoriAwal);
+  }
+});
+
+</script>
+
+</body>
+</html>
