@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>List Suntik Sosmed</title>
+  <title>List topup game</title>
   <style>
     body {
       font-family: 'Arial Rounded MT Bold', sans-serif;
@@ -11,72 +11,95 @@
       padding: 0;
       background: #fff;
     }
-
-    /* ===== NAVBAR ===== */
     header {
-      background: #6996c5;
-      padding: 10px 20px;
+  background: #6996c5;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 40px;
+}
+
+.menu-btn {
+  width: 30px;
+  height: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.menu-btn span {
+  height: 6px;
+  border-radius: 3px;
+  background: white;
+  display: block;
+}
+
+.popup-menu {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 160px;
+  display: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 999;
+}
+
+.popup-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+}
+
+.popup-menu ul li {
+  padding: 10px 16px;
+  cursor: pointer;
+  color: #6996c5;
+  font-weight: bold;
+}
+
+.popup-menu ul li:hover {
+  background-color: #f2f2f2;
+}
+
+
+    .tabs {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 20px 0;
     }
 
-    .logo {
-      display: flex;
-      align-items: center;
-    }
-
-    .logo img {
-      height: 40px;
-    }
-
-    .menu-btn {
-      width: 30px;
-      height: 25px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      cursor: pointer;
-    }
-
-    .menu-btn span {
-      height: 6px;
-      border-radius: 3px;
-      background: white;
-      display: block;
-    }
-
-    .popup-menu {
-      position: absolute;
-      top: 60px;
-      right: 20px;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      width: 160px;
-      display: none;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      z-index: 999;
-    }
-
-    .popup-menu ul {
-      list-style: none;
-      margin: 0;
-      padding: 8px 0;
-    }
-
-    .popup-menu ul li {
-      padding: 10px 16px;
-      cursor: pointer;
-      color: #6996c5;
+    .tab-button {
+      background-color: #6996c5;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      margin: 5px 10px;
+      border-radius: 10px;
       font-weight: bold;
+      cursor: pointer;
     }
 
-    .popup-menu ul li:hover {
-      background-color: #f2f2f2;
+    .tab-button.active {
+      background-color: white;
+      color: #6996c5;
+      border: 2px solid #6996c5;
     }
 
     .diamond-list {
@@ -152,83 +175,101 @@
 </head>
 <body>
 
-  <!-- ======= NAVBAR ======= -->
-  <header>
-    <div class="logo">
-      <img src="https://files.catbox.moe/2w6gtq.png" alt="BONSTORE Logo">
-    </div>
-    <div class="menu-btn" id="menuBtn">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <div class="popup-menu" id="popupMenu">
-      <ul>
-        <li>Informasi</li>
-        <li>Info Admin</li>
-      </ul>
-    </div>
-  </header>
+<!-- Tempelkan bagian ini di dalam <body> halaman utama -->
+<header>
+  <div class="logo">
+    <img src="https://files.catbox.moe/2w6gtq.png" alt="BONSTORE Logo">
+  </div>
+  <div class="menu-btn" id="menuBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <div class="popup-menu" id="popupMenu">
+    <ul>
+      <li>Informasi</li>
+      <li>Info Admin</li>
+    </ul>
+  </div>
+</header>
 
-  <div class="diamond-list" id="product-list"></div>
+<!-- KATEGORI -->
+<div class="tabs">
+  <button class="tab-button active" onclick="filterKategori('gamepass')">Roblox Game Pass</button>
+  <button class="tab-button" onclick="filterKategori('vilog')">Roblox Vilog</button>
+</div>
 
-  <script>
-    const produk = [
-  { nama: '100 Robux', harga: 17500, kategori: 'Roblox' },
-  { nama: '200 Robux', harga: 35000, kategori: 'Roblox' },
-  { nama: '300 Robux', harga: 52500, kategori: 'Roblox' },
-  { nama: '400 Robux', harga: 70000, kategori: 'Roblox' },
-  { nama: '500 Robux', harga: 87500, kategori: 'Roblox' },
-  { nama: '600 Robux', harga: 105000, kategori: 'Roblox' },
-  { nama: '700 Robux', harga: 122500, kategori: 'Roblox' },
-  { nama: '800 Robux', harga: 140000, kategori: 'Roblox' },
-  { nama: '900 Robux', harga: 157500, kategori: 'Roblox' },
-  { nama: '1000 Robux', harga: 175000, kategori: 'Roblox' },
-];
+<div class="diamond-list" id="product-list"></div>
 
+<script>
+  const produk = [
+    // ROBLOX GAME PASS
+    { nama: '100 Robux (Game Pass)', harga: 17500, kategori: 'gamepass' },
+    { nama: '200 Robux (Game Pass)', harga: 35000, kategori: 'gamepass' },
+    { nama: '300 Robux (Game Pass)', harga: 52500, kategori: 'gamepass' },
+    { nama: '400 Robux (Game Pass)', harga: 70000, kategori: 'gamepass' },
+    { nama: '500 Robux (Game Pass)', harga: 87500, kategori: 'gamepass' },
+    { nama: '600 Robux (Game Pass)', harga: 105000, kategori: 'gamepass' },
+    { nama: '700 Robux (Game Pass)', harga: 122500, kategori: 'gamepass' },
+    { nama: '800 Robux (Game Pass)', harga: 140000, kategori: 'gamepass' },
+    { nama: '900 Robux (Game Pass)', harga: 157500, kategori: 'gamepass' },
+    { nama: '1.000 Robux (Game Pass)', harga: 175000, kategori: 'gamepass' },
 
+    // ROBLOX VILOG
+    { nama: '80 Robux Vilog', harga: 18000, kategori: 'vilog' },
+    { nama: '160 Robux Vilog', harga: 36000, kategori: 'vilog' },
+    { nama: '240 Robux Vilog', harga: 53500, kategori: 'vilog' },
+    { nama: '320 Robux Vilog', harga: 71500, kategori: 'vilog' },
+    { nama: '500 Robux Vilog', harga: 90000, kategori: 'vilog' },
+    { nama: '1.000 Robux Vilog', harga: 170000, kategori: 'vilog' }
+  ];
 
-    const icon = "https://files.catbox.moe/azdnm6.jpg"; // ikon Free Fire
+  const iconKategori = {
+    gamepass: 'https://files.catbox.moe/azdnm6.jpg',
+    vilog: 'https://files.catbox.moe/azdnm6.jpg'
+  };
 
-    const container = document.getElementById('product-list');
+  const container = document.getElementById('product-list');
 
-    produk.forEach((p, i) => {
-      const card = document.createElement('div');
-      card.className = 'diamond-card fade-in';
-      card.style.animationDelay = `${i * 80}ms`;
+  function tampilkanProduk(kategori) {
+    container.innerHTML = '';
+    const icon = iconKategori[kategori];
 
-      card.innerHTML = `
-        <div class="diamond-top">
-          <span>${p.nama}</span>
-          <img src="${icon}" alt="icon" />
-        </div>
-        <div class="price-tag">Rp ${p.harga.toLocaleString('id-ID')}</div>
-      `;
+    produk
+      .filter(p => p.kategori === kategori)
+      .forEach((p, i) => {
+        const card = document.createElement('div');
+        card.className = 'diamond-card fade-in';
+        card.style.animationDelay = `${i * 80}ms`;
 
-      card.onclick = () => {
-        localStorage.setItem('produkDipilih', JSON.stringify(p));
-        window.location.href = 'checkout.html';
-      };
+        card.innerHTML = `
+          <div class="diamond-top">
+            <span>${p.nama}</span>
+            <img src="${icon}" alt="${p.kategori}" />
+          </div>
+          <div class="price-tag">Rp ${p.harga.toLocaleString('id-ID')}</div>
+        `;
 
-      container.appendChild(card);
-    });
-  </script>
+        card.onclick = () => {
+          localStorage.setItem('produkDipilih', JSON.stringify(p));
+          window.location.href = 'checkout.html';
+        };
 
-  <!-- ======= SCRIPT MENU ======= -->
-  <script>
-    const menuBtn = document.getElementById('menuBtn');
-    const popup = document.getElementById('popupMenu');
+        container.appendChild(card);
+      });
+  }
 
-    menuBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
-    });
+  function filterKategori(kategori) {
+    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
 
-    document.addEventListener('click', (e) => {
-      if (!popup.contains(e.target) && !menuBtn.contains(e.target)) {
-        popup.style.display = 'none';
-      }
-    });
-  </script>
+    const tabMap = { gamepass: 0, vilog: 1 };
+    document.querySelectorAll('.tab-button')[tabMap[kategori]].classList.add('active');
+
+    tampilkanProduk(kategori);
+  }
+
+  // Saat pertama kali dibuka, tampilkan kategori pertama
+  tampilkanProduk('gamepass');
+</script>
 </body>
 </html>
